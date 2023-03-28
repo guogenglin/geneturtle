@@ -421,10 +421,3 @@ def main():
     ts.getcanvas().postscript(file="gene_map.eps")
     
 main()
-
-'''
-基因box = [基因名，起始，终止，方向，功能注释]
-例：[sul, 1, 1308, +, AMRG]
-
-箭头以700bp为限
-'''
