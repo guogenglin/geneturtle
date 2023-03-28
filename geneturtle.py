@@ -361,6 +361,7 @@ def draw_a_box(cluster, color):
     turtle.pendown()
 
 def main():
+    print('If you have any quesions or suggestions for geneturtle, please contact Genglin Guo, e-mail: 2019207025@njau.edu.cn')
     inputfile = sys.argv[-1]
     features = feature_extraction(inputfile)
     y_axis, n_line = initiate(features)
