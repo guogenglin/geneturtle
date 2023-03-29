@@ -369,7 +369,6 @@ def main():
     length_for_one_line = 0
     the_loc_of_turtle = 1
     for gene in features:
-        print(gene[0])
         if gene[1] > the_loc_of_turtle:
             distance_to_move = (gene[1] - the_loc_of_turtle) / 10
             length_for_one_line += distance_to_move
