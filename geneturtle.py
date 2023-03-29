@@ -318,7 +318,7 @@ def figure_legends(cluster_the_annotation, length_for_one_line):
         count += 1
         if count == 6:
             turtle.penup()
-            turtle.bk(400)
+            turtle.bk(500)
             turtle.right(90)
             turtle.fd(50)
             turtle.left(90)
