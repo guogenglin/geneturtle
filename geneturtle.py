@@ -35,6 +35,7 @@ def initiate(features):
         features[0][1] = eval(features[0][1])
     total_length = features[-1][2] - features[0][1]
     turtle.setup(1200, 800)
+    turtle.speed(0)
     turtle.colormode(255)
     turtle.penup()
     n_line = total_length // 10000 + 1
