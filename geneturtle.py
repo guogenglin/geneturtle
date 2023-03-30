@@ -59,7 +59,10 @@ def initiate(features):
 
 def cluster_the_annotation(features):
     clusters = []
+    #the default color group is more soft
     colors = [[231, 219, 202], [184, 241, 204], [184, 241, 237], [241, 241, 184], [241, 204, 184], [217, 184, 241], [241, 184, 241], [255, 155, 106], [221, 255, 149], [184, 211, 143]]
+    #provide another group of color, which is more bright
+    #colors = [[102, 204, 204], [204, 255, 102], [255, 153, 204], [255, 0, 51], [255, 153, 102], [204, 51, 153], [255, 255, 102], [153, 204, 51], [102, 102, 153], [102, 102, 51]]
     for gene in features:
         if gene[4] not in clusters:
             clusters.append(gene[4])
