@@ -3,6 +3,7 @@
 Created on Sun Mar 26 15:54:04 2023
 
 @author: Genglin Guo
+e-mail : 2019207025@njau.edu.cn
 """
 
 import sys
