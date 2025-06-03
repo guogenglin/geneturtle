@@ -500,7 +500,7 @@ def figure_legends(cluster_the_annotation, length_for_one_line, simplify_time):
         # 5 annotation for each line
         if count == 6:
             turtle.penup()
-            turtle.bk(650)
+            turtle.bk(800)
             turtle.right(90)
             turtle.fd(50)
             turtle.left(90)
@@ -555,7 +555,7 @@ def draw_a_box(cluster, color):
     turtle.left(90)
     turtle.fd(30)
     turtle.write(cluster, font = ('Times new roman', 12, 'normal'))
-    turtle.fd(100)
+    turtle.fd(130)
     turtle.pendown()
 
 def main():
