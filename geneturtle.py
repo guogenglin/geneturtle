@@ -23,7 +23,7 @@ def get_argument():
 
     # Input and output
     parser_group_1.add_argument('-i', '--input', required = True, type = str, 
-                                help = 'Input FASTA file')
+                                help = 'The file include the detail to draw the figure')
     parser_group_1.add_argument('-t', '--type', required = True, type = str, 
                                 help = 'The file type of your input file, "gbk" and "list" are available')
     parser_group_1.add_argument('-o', '--output', required = False, type = str, default = 'gene_turtle',
@@ -31,8 +31,8 @@ def get_argument():
     
     # Parameters
     parser_group_2.add_argument('-c', '--color_mode', required = False, type = str, default = 'preset',
-                                help = 'We have three mode for color assignment for every gene group, "random", "preset", \nif you choose diy, please directly provide another file with group and the color you want. \n(if you choose "diy" and use gbk format file, please make sure the group has been assigned in gbk file, feature : product')
-    parser_group_2.add_argument('-f', '--force', action = 'store_true', help = 'In case the sequence is too long and you still run it.')
+                                help = 'We have three mode for color assignment for every gene group, you can choose "random", "preset", or upload the color file set by yourself. [default: preset]')
+    parser_group_2.add_argument('-f', '--force', action = 'store_true', help = 'In case the sequence is too long and you still want to run it.')
     parser_group_2.add_argument('-v', '--version', action = 'version', version = 'geneturtle v' + __version__, 
                         help = 'Show version number and exit')
     return parser
@@ -68,7 +68,7 @@ def feature_extraction(inputfile, seq_type):
                     # extract the start, end, strand and product
                     start = gene.location.start.numerator
                     end = gene.location.end.numerator
-                    if gene.strand == 1:
+                    if gene.location.strand == 1:
                         strand = '+'
                     else:
                         strand = '-'
@@ -115,7 +115,7 @@ def cluster_the_annotation(features, seq_type, colormode):
         # only ten preset color, so this is a threshold
         if len(clusters) > 10:
             print('Too many functional annotation cluster, please consice it or choose other colormode')
-            sys.exit(1)
+            sys.exit(0)
         # random choose the color
         choosed_color = []
         for i in range(len(clusters)):
@@ -188,9 +188,9 @@ def concise_gbk_feature(features):
                 feature[4] = 'Hypothetical protein'
     return features
 
-def initiate(features):
+def initiate(features, simplify_time):
     # count the total length
-    total_length = features[-1][2] - features[0][1]
+    total_length = features[-1][2]
     # set the window
     turtle.setup(1200, 800)
     # make it quick
@@ -199,22 +199,21 @@ def initiate(features):
     turtle.colormode(255)
     turtle.penup()
     # count the line number
-    n_line = total_length // 10000 + 1
+    n_line = (total_length // 10000 + 1) / simplify_time
     # set the position of y axis
     y_axis = 0
     # we cannot draw a sequence longer than 40k,
     if n_line > 4:
-        print('the input is too long to draw, gene_turtle is too weak to do this job, please try other tools')
-        sys.exit(1)
+        print('Your sequence is longer than 40, 000 bp, and there maybe some unpredictable errors, if you still want to do it, please add "-f" or "--force"')
+        sys.exit(0)
+    elif n_line == 4:
+        y_axis = 300
+    elif n_line == 3:
+        y_axis = 250
+    elif n_line == 2:
+        y_axis = 200
     else:
-        if n_line == 4:
-            y_axis = 300
-        elif n_line == 3:
-            y_axis = 250
-        elif n_line == 2:
-            y_axis = 200
-        else:
-            y_axis = 150
+        y_axis = 150
     # go to the start point
     turtle.goto(-520, y_axis)
     # set the pen size
@@ -572,7 +571,7 @@ def main():
     # clustal all the features by given colormode
     clusters_with_color = cluster_the_annotation(features, args.type, args.color_mode)
     # set the initiate
-    y_axis, n_line = initiate(features)
+    y_axis, n_line = initiate(features, simplify_time)
     # count the length for one line, if it > 1000, change to next line.
     length_for_one_line = 0
     # trace the location of the turtle
