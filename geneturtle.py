@@ -165,9 +165,13 @@ def concise_gbk_feature(features):
         'Recombinase' : ['recombinase'], 
         'Hypothetical protein' : ['hypothetical protein'], 
         'Mutase' : ['mutase'], 
+        'Integrase' : ['integrase'], 
+        'Antibiotic resistance' : ['AadA', 'QacE', 'Mph(A)'], 
+        'Acetyltransferase' : ['acetyltransferase'], 
+        'Resistance regulator' : ['MphR(A)', 'Mrx(A)']
         }
     # the amr pending is depend on the gene name, and others are product
-    amr_preset = ['sul', 'tet', 'bla', 'cat']
+    amr_preset = ['sul', 'tet', 'bla', 'cat', 'dfrA']
     # pending the group
     for feature in features:
         # pending if the gene is a amr
@@ -485,7 +489,7 @@ def add_cite(gene_name, length):
     turtle.fd(loc_to_write)
     turtle.pendown()
 
-def figure_legends(cluster_the_annotation, length_for_one_line, simplify_time):
+def figure_legends(cluster_the_annotation, features, length_for_one_line, simplify_time):
     # move the turtle to the bottom of the paper, left side
     turtle.penup()
     turtle.right(90)
@@ -495,17 +499,26 @@ def figure_legends(cluster_the_annotation, length_for_one_line, simplify_time):
     turtle.pendown()
     # draw boxes for every group, 5 per line max.
     count = 0
+    existing_group = []
+    for feature in features:
+        if feature[4] in existing_group:
+            continue
+        else:
+            existing_group.append(feature[4])
     for cluster, color in cluster_the_annotation.items():
-        count += 1
-        # 5 annotation for each line
-        if count == 6:
-            turtle.penup()
-            turtle.bk(800)
-            turtle.right(90)
-            turtle.fd(50)
-            turtle.left(90)
-            turtle.pendown()
-        draw_a_box(cluster, color)
+        if cluster in existing_group:
+            count += 1
+            # 5 annotation for each line
+            if count == 6:
+                turtle.penup()
+                turtle.bk(800)
+                turtle.right(90)
+                turtle.fd(50)
+                turtle.left(90)
+                turtle.pendown()
+            draw_a_box(cluster, color)
+        else:
+            continue
     # draw the scale
     turtle.penup()
     turtle.goto(450, -300)
@@ -640,7 +653,7 @@ def main():
             if not length < 35:
                 add_cite(feature[0], length)
     turtle.fd(20)
-    figure_legends(clusters_with_color, length_for_one_line, simplify_time)
+    figure_legends(clusters_with_color, features, length_for_one_line, simplify_time)
     turtle.hideturtle()
     ts = turtle.getscreen()
     file_name = args.output + '.eps'
