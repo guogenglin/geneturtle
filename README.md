@@ -42,7 +42,7 @@ Parameters:
 
 # Quick Start   
 ``` Python
-python geneturtle.py inputfile.txt
+python geneturtle.py -i inputfile.txt -t list
 ```
 
 
