@@ -3,7 +3,7 @@
 Created on Wed May 28 15:59:29 2025
 
 @author: Genglin Guo
-@e-mail: 2019207025.njau.edu.cn
+@e-mail: 2019207025@njau.edu.cn
 """
 
 import argparse
@@ -660,3 +660,4 @@ def main():
     ts.getcanvas().postscript(file = file_name)
     
 main()
+
